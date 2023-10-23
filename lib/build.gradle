@@ -1,0 +1,44 @@
+plugins {
+    id 'java-library'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+def lombokVersion = "1.18.26"
+
+dependencies {
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    implementation platform('software.amazon.awssdk:bom:2.21.0')
+    api 'com.github.ArielJoseArnedo:api-messaging:2.0.0'
+    implementation 'software.amazon.awssdk:sns'
+    implementation 'software.amazon.awssdk:dynamodb-enhanced'
+    implementation 'software.amazon.awssdk:sqs'
+    implementation 'org.springframework:spring-context:6.0.12'
+    implementation 'org.springframework:spring-context-support:6.0.12'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+jar {
+    manifest {
+        attributes('Implementation-Title': project.name,
+                'Implementation-Version': project.version)
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
